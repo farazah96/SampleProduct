@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<page layout="1column" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <head>
+        <css src="WebVision_SampleProduct::css/source/_module.css"/>
+    </head>
+    <body>
+        <referenceContainer name="content">
+            <referenceContainer name="product.info.main">
+                <block name="catalog-sample-product" after="product.info"
+                       template="WebVision_SampleProduct::product/view/sample-product.phtml">
+                    <arguments>
+                        <argument name="view_model" xsi:type="object">WebVision\SampleProduct\ViewModel\SampleProductViewModel</argument>
+                    </arguments>
+                </block>
+            </referenceContainer>
+            <block name="billing-details"
+                   template="WebVision_SampleProduct::billing-details.phtml">
+                <arguments>
+                    <argument name="view_model" xsi:type="object">WebVision\SampleProduct\ViewModel\BillingDetailsViewModel</argument>
+                </arguments>
+            </block>
+        </referenceContainer>
+    </body>
+</page>
+

@@ -1,0 +1,40 @@
+<?php
+
+use Magento\Framework\Escaper;
+use Magento\Framework\View\Element\Template;
+use WebVision\SampleProduct\ViewModel\SampleProductViewModel;
+
+/** @var Template $block */
+/** @var Escaper $escaper */
+/** @var SampleProductViewModel $viewModel */
+
+$viewModel = $block->getViewModel();
+$product = $viewModel->getCurrentProduct();
+$hasSampleProduct = $viewModel->productHaveSample();
+?>
+<?php if ($hasSampleProduct): ?>
+    <div class="product-options-bottom" data-bind="scope: 'sample-product'">
+        <div class="box-tocart">
+            <div class="actions">
+                <button type="submit" title="Get Sample" class="action primary tocart get-sample"
+                        id="sample-product-button" data-bind="click: showBillingPopup">
+                    <span><?= __('Get Sample') ?></span>
+                </button>
+            </div>
+        </div>
+    </div>
+    <script type="text/x-magento-init">
+        {
+            "*": {
+                "Magento_Ui/js/core/app": {
+                    "components": {
+                        "sample-product": {
+                            "component": "WebVision_SampleProduct/js/product/sample-product",
+                            "productSku": "<?= $product->getSku() . '_sample' ?>"
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+<?php endif; ?>

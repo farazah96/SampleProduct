@@ -1,0 +1,97 @@
+<?php
+
+use Magento\Framework\Escaper;
+use Magento\Framework\View\Element\Template;
+use WebVision\SampleProduct\ViewModel\BillingDetailsViewModel;
+
+/** @var Template $block */
+/** @var Escaper $escaper */
+/** @var BillingDetailsViewModel $viewModel */
+
+$viewModel = $block->getViewModel();
+$billingDetails = $viewModel->getBillingDetails();
+$regions = $viewModel->getRegions();
+?>
+<div id="billing-details-popup" data-bind="scope: 'submit'" style="display: none">
+    <form class="billing-details-form"
+          action=""
+          method="post"
+          id="billing-details-form"
+          enctype="multipart/form-data" data-bind="mageInit: {'validation':[]}, submit: submit"">
+        <fieldset class="fieldset">
+            <div class="control">
+                <p class="popup-heading"><?= $escaper->escapeHtml(__('Billing Details')) ?></p>
+            </div>
+            <div class="control">
+                <label><span><?= $escaper->escapeHtml(__('First Name')) ?></span></label>
+                <input type="text" id="firstname" name="firstname" required="true"
+                       value="<?= $billingDetails['firstname'] ?? '' ?>">
+            </div>
+            <div class="control">
+                <label><span><?= $escaper->escapeHtml(__('Last Name')) ?></span></label>
+                <input type="text" id="lastname" name="lastname" required="true"
+                       value="<?= $billingDetails['lastname'] ?? '' ?>">
+            </div>
+            <div class="control">
+                <label><span><?= $escaper->escapeHtml(__('Email')) ?></span></label>
+                <input data-validate="{'validate-email': true}" type="email"
+                       id="email" name="email" required="true"
+                       value="<?= $billingDetails['email'] ?? ''; ?>">
+            </div>
+            <div class="control">
+                <label><span><?= $escaper->escapeHtml(__('Phone')) ?></span></label>
+                <input data-validate="{'validate-number': true}" type="text"
+                       id="telephone" name="telephone" required="true"
+                       value="<?= $billingDetails['phone'] ?? '' ?>">
+            </div>
+            <div class="control">
+                <label><span><?= $escaper->escapeHtml(__('Street')) ?></span></label>
+                <input type="text" id="street" name="street" required="true"
+                       value="<?= $billingDetails['street'] ?? '' ?>">
+            </div>
+            <div class="control">
+                <label><span><?= $escaper->escapeHtml(__('City')) ?></span></label>
+                <input type="text" id="city" name="city" required="true"
+                       value="<?= $billingDetails['city'] ?? '' ?>">
+            </div>
+            <div class="control">
+                <label><span><?= $escaper->escapeHtml(__('Zip Code')) ?></span></label>
+                <input type="text" id="postcode" name="postcode" required="true"
+                       value="<?= $billingDetails['postcode'] ?? '' ?>">
+            </div>
+            <div class="control">
+                <label><span><?= $escaper->escapeHtml(__('State')) ?></span></label>
+                <select id="region_id" name="region_id">
+                    <?php foreach ($regions as $region): ?>
+                        <option <?= isset($billingDetails['region_id']) && $region->getId() === $billingDetails['region_id'] ? 'selected' : '' ?> value="<?= $region->getId() ?>" >
+                            <?= $region->getName() ?>
+                        </option>
+                    <?php endforeach; ?>
+                </select>
+            </div>
+            <div class="control" style="display: none">
+                <input type="text" id="country_id" name="country_id" value="US">
+                <input type="text" id="product_sku" name="product_sku" value="">
+            </div>
+            <div class="control">
+                <button id="submit-button" type="submit"
+                        class="action save primary sample-submit">Submit</button>
+                <button id="submit-button" class="action save sample-cancel"
+                        data-bind="click: closeModal">Cancel</button>
+            </div>
+        </fieldset>
+    </form>
+</div>
+<script type="text/x-magento-init">
+    {
+        "*": {
+            "Magento_Ui/js/core/app": {
+                "components": {
+                    "submit": {
+                        "component": "WebVision_SampleProduct/js/submit"
+                    }
+                }
+            }
+        }
+    }
+</script>

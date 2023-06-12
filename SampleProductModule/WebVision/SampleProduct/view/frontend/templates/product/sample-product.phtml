@@ -1,0 +1,33 @@
+<?php
+use Magento\Catalog\Block\Product\ProductList\Item\Block;
+use WebVision\SampleProduct\ViewModel\SampleProductViewModel;
+
+/** @var Block $block */
+/** @var SampleProductViewModel $viewModel */
+
+$product = $block->getProduct();
+$viewModel = $block->getViewModel();
+$hasSampleProduct = $viewModel->productHaveSample($product->getSku());
+?>
+<?php if ($hasSampleProduct): ?>
+    <div class="get-sample-category" data-bind="scope: 'sample-product'">
+        <button type="submit" title="Get Sample" class="action primary tocart"
+                id="sample-product-button" data-bind="click: showBillingPopup">
+            <span><?= __('Get Sample') ?></span>
+        </button>
+    </div>
+    <script type="text/x-magento-init">
+        {
+            "*": {
+                "Magento_Ui/js/core/app": {
+                    "components": {
+                        "sample-product": {
+                            "component": "WebVision_SampleProduct/js/product/sample-product",
+                            "productSku": "<?= $product->getSku() . '_sample' ?>"
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+<?php endif; ?>
