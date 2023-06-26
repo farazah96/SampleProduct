@@ -1,9 +1,3 @@
-# Trial Task 01
-
-## Estimation
-I've estimated this task for 15hrs and will be working 3hrs per day.
-So this will be delivered in 5 days
-
 ## Setup
 
 Create a Simple Product for a Configurable product with SKU containing `_sample` and add that sample product in related products of configurable one.
